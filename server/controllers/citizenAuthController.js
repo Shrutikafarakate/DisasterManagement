@@ -4,6 +4,7 @@ const Citizen = require("../models/Citizen");
 const Otp = require("../models/Otp");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { isValidOtp } = require("../utils/otp");
 
 /**
  * -------------------------
@@ -23,7 +24,7 @@ exports.register = async (req, res) => {
     }
 
     const otpRecord = await Otp.findOne({ email });
-    if (!otpRecord || otpRecord.otp !== String(otp)) {
+    if (!isValidOtp(otpRecord, String(otp).trim())) {
       return res.status(400).json({ message: "Invalid or expired OTP" });
     }
 

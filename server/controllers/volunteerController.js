@@ -291,6 +291,10 @@ const VolunteerAlert = require("../models/VolunteerAlert");
 const Mission = require("../models/Mission");
 const CitizenIncident = require("../models/CitizenIncident");
 const CitizenAlert = require("../models/CitizenAlert");
+const { generateOtp, isValidOtp } = require("../utils/otp");
+
+const isValidEmail = (email) =>
+  /^[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+$/.test(email);
 
 // --- SEND OTP ---
 // --- SEND OTP ---
@@ -299,33 +303,34 @@ exports.sendOtp = async (req, res) => {
     const email = typeof req.body.email === "string"
       ? req.body.email.trim().toLowerCase()
       : "";
-    if (!email) return res.status(400).json({ message: "Email is required" });
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ message: "A valid email is required" });
+    }
 
-    // Note: Citizen flow does not check existence here, so we skip it to match exactly.
-    // const existing = await Volunteer.findOne({ email });
-    // if (existing) return res.status(400).json({ message: "Email already registered" });
-
-    // 1. Generate 6-digit OTP
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-
-    await sendEmail({
-      email,
-      subject: "Disaster Portal - Volunteer Verification",
-      message: `Your OTP is ${code}`,
-      otp: code
-    });
-
+    const code = generateOtp();
     await Otp.deleteMany({ email });
-    await Otp.create({ email, otp: code });
+    const record = await Otp.create({ email, otp: code });
+
+    try {
+      await sendEmail({
+        email,
+        subject: "Disaster Portal - Volunteer Verification",
+        message: `Your OTP is ${code}`,
+        otp: code,
+      });
+    } catch (error) {
+      await Otp.deleteOne({ _id: record._id });
+      throw error;
+    }
 
     res.json({ message: "OTP sent successfully" });
   } catch (err) {
-    if (err.code === "EMAIL_CONFIG_MISSING") {
-      console.warn("Volunteer OTP email unavailable:", err.message);
+    if (err.code === "EMAIL_CONFIG_MISSING" || err.code === "EMAIL_CONFIG_INVALID") {
+      console.error("Volunteer OTP email configuration error:", err.message);
       return res.status(503).json({ message: err.message });
     }
     console.error("Send OTP Error:", err.message);
-    res.status(502).json({ message: "Could not send OTP email. Check SMTP settings and try again." });
+    res.status(502).json({ message: "Could not send OTP email. Check email provider settings and try again." });
   }
 };
 
@@ -345,7 +350,7 @@ exports.register = async (req, res) => {
 
     // 2. Verify OTP First
     const record = await Otp.findOne({ email });
-    if (!record || record.otp !== otp) {
+    if (!isValidOtp(record, otp == null ? "" : String(otp).trim())) {
       return res.status(400).json({ message: "Invalid or expired OTP" });
     }
 

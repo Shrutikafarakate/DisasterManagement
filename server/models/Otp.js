@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const OTP_TTL_SECONDS = 5 * 60;
 
 const otpSchema = new mongoose.Schema({
   email: { type: String, required: true },
@@ -6,8 +7,11 @@ const otpSchema = new mongoose.Schema({
   // Stores the 6-digit code
   otp: { type: String, required: true }, 
   
-  // Automatically deletes this document after 300 seconds (5 minutes)
-  createdAt: { type: Date, default: Date.now, index: { expires: 300 } } 
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    index: { expires: OTP_TTL_SECONDS },
+  },
 });
 
 module.exports = mongoose.model("Otp", otpSchema);
