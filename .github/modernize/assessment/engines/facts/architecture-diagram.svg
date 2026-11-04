@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="880" viewBox="0 0 1440 880" role="img" aria-labelledby="title description">
+  <title id="title">Disaster Management System Architecture</title>
+  <desc id="description">High-level diagram showing the React client, Express API, MongoDB data store, and external email and OpenStreetMap services.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+    </marker>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; fill: #e2e8f0; }
+      .title { font-size: 30px; font-weight: 700; }
+      .subtitle { font-size: 15px; fill: #94a3b8; }
+      .panel-title { font-size: 18px; font-weight: 700; }
+      .node-title { font-size: 16px; font-weight: 700; }
+      .node-sub { font-size: 13px; fill: #cbd5e1; }
+      .edge-label { font-size: 12px; fill: #cbd5e1; }
+      .panel { stroke-width: 2; rx: 18; }
+      .node { stroke-width: 1.5; rx: 12; }
+      .edge { fill: none; stroke: #64748b; stroke-width: 2.2; marker-end: url(#arrow); }
+      .dashed { stroke-dasharray: 7 6; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="880" fill="#0f172a"/>
+  <text x="48" y="58" class="title">Disaster Management System</text>
+  <text x="48" y="86" class="subtitle">Application architecture | React client, Express REST API, MongoDB and external services</text>
+
+  <rect x="32" y="120" width="330" height="620" class="panel" fill="#111e36" stroke="#38bdf8"/>
+  <text x="56" y="158" class="panel-title" fill="#7dd3fc">CLIENT</text>
+
+  <rect x="66" y="190" width="262" height="76" class="node" fill="#163452" stroke="#38bdf8"/>
+  <text x="197" y="222" text-anchor="middle" class="node-title">Web Browser</text>
+  <text x="197" y="245" text-anchor="middle" class="node-sub">React 18 single-page app</text>
+
+  <rect x="66" y="305" width="262" height="86" class="node" fill="#163452" stroke="#38bdf8"/>
+  <text x="197" y="339" text-anchor="middle" class="node-title">Role-based screens</text>
+  <text x="197" y="363" text-anchor="middle" class="node-sub">Citizen | Volunteer | Admin</text>
+
+  <rect x="66" y="435" width="262" height="76" class="node" fill="#163452" stroke="#38bdf8"/>
+  <text x="197" y="467" text-anchor="middle" class="node-title">Axios API client</text>
+  <text x="197" y="490" text-anchor="middle" class="node-sub">JSON HTTP | bearer token</text>
+
+  <rect x="66" y="555" width="262" height="76" class="node" fill="#163452" stroke="#38bdf8"/>
+  <text x="197" y="587" text-anchor="middle" class="node-title">Leaflet location map</text>
+  <text x="197" y="610" text-anchor="middle" class="node-sub">Incident location selection</text>
+
+  <rect x="400" y="120" width="470" height="620" class="panel" fill="#142338" stroke="#a78bfa"/>
+  <text x="424" y="158" class="panel-title" fill="#c4b5fd">APPLICATION API</text>
+
+  <rect x="452" y="190" width="366" height="76" class="node" fill="#302653" stroke="#a78bfa"/>
+  <text x="635" y="222" text-anchor="middle" class="node-title">Express 4 REST API</text>
+  <text x="635" y="245" text-anchor="middle" class="node-sub">Node.js | JSON | CORS | request logging</text>
+
+  <rect x="452" y="305" width="366" height="76" class="node" fill="#302653" stroke="#a78bfa"/>
+  <text x="635" y="337" text-anchor="middle" class="node-title">Role and feature routes</text>
+  <text x="635" y="360" text-anchor="middle" class="node-sub">Citizen | Volunteer | Admin | SOS</text>
+
+  <rect x="452" y="420" width="366" height="76" class="node" fill="#302653" stroke="#a78bfa"/>
+  <text x="635" y="452" text-anchor="middle" class="node-title">JWT and role middleware</text>
+  <text x="635" y="475" text-anchor="middle" class="node-sub">Protects applicable endpoints</text>
+
+  <rect x="452" y="535" width="366" height="76" class="node" fill="#302653" stroke="#a78bfa"/>
+  <text x="635" y="567" text-anchor="middle" class="node-title">Feature controllers</text>
+  <text x="635" y="590" text-anchor="middle" class="node-sub">Incidents | Alerts | Missions | Reports</text>
+
+  <rect x="452" y="650" width="170" height="60" class="node" fill="#302653" stroke="#a78bfa"/>
+  <text x="537" y="676" text-anchor="middle" class="node-title">Mongoose</text>
+  <text x="537" y="697" text-anchor="middle" class="node-sub">Models and queries</text>
+
+  <rect x="650" y="650" width="168" height="60" class="node" fill="#302653" stroke="#a78bfa"/>
+  <text x="734" y="676" text-anchor="middle" class="node-title">SMTP helper</text>
+  <text x="734" y="697" text-anchor="middle" class="node-sub">OTP verification email</text>
+
+  <rect x="910" y="120" width="240" height="620" class="panel" fill="#102d2a" stroke="#34d399"/>
+  <text x="934" y="158" class="panel-title" fill="#6ee7b7">DATA</text>
+
+  <rect x="940" y="415" width="180" height="116" class="node" fill="#16443f" stroke="#34d399"/>
+  <ellipse cx="1030" cy="433" rx="90" ry="18" fill="#16443f" stroke="#34d399" stroke-width="1.5"/>
+  <text x="1030" y="465" text-anchor="middle" class="node-title">MongoDB</text>
+  <text x="1030" y="489" text-anchor="middle" class="node-sub">Accounts, incidents,</text>
+  <text x="1030" y="509" text-anchor="middle" class="node-sub">alerts, missions, reports</text>
+
+  <rect x="1190" y="120" width="218" height="620" class="panel" fill="#30251c" stroke="#fb923c"/>
+  <text x="1214" y="158" class="panel-title" fill="#fdba74">EXTERNAL</text>
+
+  <rect x="1218" y="280" width="162" height="86" class="node" fill="#4a301e" stroke="#fb923c"/>
+  <text x="1299" y="316" text-anchor="middle" class="node-title">SMTP service</text>
+  <text x="1299" y="340" text-anchor="middle" class="node-sub">Email delivery</text>
+
+  <rect x="1218" y="520" width="162" height="96" class="node" fill="#4a301e" stroke="#fb923c"/>
+  <text x="1299" y="554" text-anchor="middle" class="node-title">OpenStreetMap</text>
+  <text x="1299" y="578" text-anchor="middle" class="node-sub">Tiles and Nominatim</text>
+  <text x="1299" y="598" text-anchor="middle" class="node-sub">place search</text>
+
+  <path d="M197 266 L197 305" class="edge"/>
+  <path d="M197 391 L197 435" class="edge"/>
+  <path d="M328 473 C370 473 385 228 452 228" class="edge"/>
+  <text x="365" y="345" class="edge-label" transform="rotate(-75 365 345)">REST requests</text>
+
+  <path d="M635 266 L635 305" class="edge"/>
+  <path d="M635 381 L635 420" class="edge"/>
+  <path d="M635 496 L635 535" class="edge"/>
+  <path d="M635 611 L635 632 L537 632 L537 650" class="edge"/>
+  <path d="M818 575 C854 575 842 680 818 680" class="edge"/>
+  <text x="850" y="627" class="edge-label" transform="rotate(90 850 627)">OTP email</text>
+
+  <path d="M622 680 L930 680 L930 473 L940 473" class="edge"/>
+  <text x="850" y="700" class="edge-label">document operations</text>
+  <path d="M328 593 C700 810 1050 810 1218 568" class="edge"/>
+  <text x="858" y="795" class="edge-label">map tiles and place search</text>
+  <path d="M818 680 L1218 323" class="edge dashed"/>
+  <text x="1014" y="455" class="edge-label" transform="rotate(-42 1014 455)">SMTP delivery</text>
+
+  <text x="48" y="814" class="subtitle">Note: Socket.IO is listed as a dependency but is not initialized in the current server code.</text>
+  <text x="48" y="840" class="subtitle">Multer is configured for memory uploads but is not mounted on a current route.</text>
+</svg>
